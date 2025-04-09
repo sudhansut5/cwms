@@ -48,7 +48,7 @@ class PasswordResetRequestView(View):
         token = PasswordResetToken.objects.create(user=user)
         
         # Send a password reset email with a link containing the token
-        reset_link = f"https://cwmss-github.onrender.com/password-reset/confirm/{token.token}
+        reset_link = f"https://cwmss-github.onrender.com/password-reset/confirm/{token.token}/"
         send_mail('Password Reset', f'Click the following link to reset your password: {reset_link}', 'sudhansut5@gmail.com', [email])
 
         messages.success(request, 'Password reset email sent.')
