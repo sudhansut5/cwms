@@ -49,7 +49,7 @@ class PasswordResetRequestView(View):
         
         # Send a password reset email with a link containing the token
         reset_link = f"http://yourdomain.com/password-reset/confirm/{token.token}/"
-        send_mail('Password Reset', f'Click the following link to reset your password: {reset_link}', 'chandan0003ch@gmail.com', [email])
+        send_mail('Password Reset', f'Click the following link to reset your password: {reset_link}', 'sudhansut5@gmail.com', [email])
 
         messages.success(request, 'Password reset email sent.')
         return redirect('custom_login')
