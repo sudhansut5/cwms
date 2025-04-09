@@ -1,4 +1,4 @@
-# App/forms.py
+﻿# App/forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Process, SubProcess
@@ -25,16 +25,16 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean_analyst_email(self):
         analyst_email = self.cleaned_data.get('analyst_email')
-        if not analyst_email.endswith('@anaptyss.com'):
+        if not analyst_email.endswith('@ana.com'):
             raise forms.ValidationError(
-                'Invalid email domain. Please use @anaptyss.com for analyst email.')
+                'Invalid email domain. Please use @ana.com for analyst email.')
         return analyst_email
 
     def clean_supervisor_email(self):
         supervisor_email = self.cleaned_data.get('supervisor_email')
-        if not supervisor_email.endswith('@anaptyss.com'):
+        if not supervisor_email.endswith('@ana.com'):
             raise forms.ValidationError(
-                'Invalid email domain. Please use @anaptyss.com for supervisor email.')
+                'Invalid email domain. Please use @ana.com for supervisor email.')
         return supervisor_email
 
 

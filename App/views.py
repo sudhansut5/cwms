@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+﻿from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
@@ -26,8 +26,8 @@ def signup(request):
 
     return render(request, 'App/signup.html', {'form': form, 'processes': processes, 'sub_processes': sub_processes})
 
-    if not user.analyst_email.endswith('@anaptyss.com') or not user.supervisor_email.endswith('@anaptyss.com'):
-        error_message = 'Invalid email domain. Please use @anaptyss.com for analyst and supervisor email.'
+    if not user.analyst_email.endswith('@ana.com') or not user.supervisor_email.endswith('@ana.com'):
+        error_message = 'Invalid email domain. Please use @ana.com for analyst and supervisor email.'
         messages.error(request, error_message)
         return render(request, 'signup.html')
 

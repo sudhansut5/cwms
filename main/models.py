@@ -1,4 +1,4 @@
-from django.db import models
+﻿from django.db import models
 from App.models import CustomUser  # Assuming your CustomUser model is in the App app
 from django.utils import timezone
  

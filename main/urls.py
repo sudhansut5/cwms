@@ -1,4 +1,4 @@
-from django.urls import path
+﻿from django.urls import path
 from .views import home,production_tracker, reports, data_utilities,query_tracker,display_data,display_production_data,randomizer,display_quality_tracker,quality_tracker,data_extraction,get_sub_process,get_analyst_name,dashboard,tests
 
 urlpatterns = [
