@@ -26,7 +26,7 @@ def signup(request):
 
     return render(request, 'App/signup.html', {'form': form, 'processes': processes, 'sub_processes': sub_processes})
 
-    if not user.analyst_email.endswith('@anaptyss.com') or not user.supervisor_email.endswith('@anaptyss.com'):
+    if not user.analyst_email.endswith('@ana.com') or not user.supervisor_email.endswith('@ana.com'):
         error_message = 'Invalid email domain. Please use @anaptyss.com for analyst and supervisor email.'
         messages.error(request, error_message)
         return render(request, 'signup.html')
@@ -49,7 +49,7 @@ class PasswordResetRequestView(View):
         
         # Send a password reset email with a link containing the token
         reset_link = f"http://yourdomain.com/password-reset/confirm/{token.token}/"
-        send_mail('Password Reset', f'Click the following link to reset your password: {reset_link}', 'chandan0003ch@gmail.com', [email])
+        send_mail('Password Reset', f'Click the following link to reset your password: {reset_link}', 'sudhansut5@gmail.com', [email])
 
         messages.success(request, 'Password reset email sent.')
         return redirect('custom_login')
