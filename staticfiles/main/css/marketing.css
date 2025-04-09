@@ -1,0 +1,6 @@
+/* Additional styles for the marketing section */
+.row {
+    gap: 30px;
+    text-align: center;
+    margin-left: 80px;
+}

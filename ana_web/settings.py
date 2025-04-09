@@ -25,9 +25,7 @@ SECRET_KEY = 'django-insecure-oy1snd+pefg_u)nqg2wme3(lgblm&4bl*t!kt97+r2f6pbijv4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-
-# ALLOWED_HOSTS = ['cwmstest-github.onrender.com']
-ALLOWED_HOSTS = ['cwmstest-github.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['cwmstest-github.onrender.com', '127.0.0.1']
 
 
 
@@ -66,12 +64,10 @@ MIDDLEWARE = [
 
 
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_TRUSTED_ORIGINS = ['https://cwmss-github.onrender.com']
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 ROOT_URLCONF = 'ana_web.urls'
 
@@ -155,8 +151,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
