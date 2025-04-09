@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-oy1snd+pefg_u)nqg2wme3(lgblm&4bl*t!kt97+r2f6pbijv4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['cwmstest-github.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['cwmss-github.onrender.com', '127.0.0.1']
 
 
 
