@@ -1,0 +1,121 @@
+body {
+  font-family: calibri;
+  margin: 10px;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 20vh;
+  background-attachment: fixed;
+  text-align: center;
+}
+
+.container {
+  min-width: 1400px;
+}
+
+h2 {
+  color: rebeccapurple;
+  margin-top: 20px;
+}
+
+#timeline {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #0b0c0c;
+}
+
+.input-group.date {
+  width: 200px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 15px !important;
+  /* Add !important */
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+}
+
+th {
+  background-color: #542364;
+  color: #fff;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.form-control {
+  width: 100%;
+}
+
+#display_data {
+  overflow-y: auto;
+}
+
+.datepicker-dropdown {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+td:nth-child(2) {
+  font-weight: bold;
+}
+
+/* Responsive styling for small screens */
+@media (max-width: 1800px) {
+  table {
+    margin: 20px 0;
+  }
+}
+
+.row {
+
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 345px;
+  margin-left: 350px;
+}
+
+#itemCount  {
+  font-size: 20px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 50px;
+  text-align: left;
+}
+
+#downloadCSV {
+  background-color: rgb(27, 204, 204);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  display: inline-block;
+  font-size: 16px;
+
+
+
+}
+#transaction-number-header {
+  font-size: 1.2em;
+  padding: 10px;
+}

@@ -1,0 +1,21 @@
+{% load widget_tweaks %}
+<div class="form-group">
+  {{ form.label }}
+  {% if form.help_text %}
+    <p class="help help-block">{{ form.help_text }}</p>
+  {% endif %}
+  {% if form.field.choices %}
+    <div class="checkbox-group">
+      {% for choice in form.field.choices %}
+        <div class="checkbox">
+          {{ form.field.tag }}
+          <label for="{{ choice.id_for_label }}">
+            {{ choice.label }}
+          </label>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-choices">No options available</div>
+  {% endif %}
+</div>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Data Table</title>
+
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+    <!-- Add Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Add Bootstrap JS and Bootstrap Datepicker JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="{% static 'main/css/display.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <!-- Include Blob library -->
+
+    <!-- Include FileSaver library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script src="{% static 'main/js/display.js' %}"></script>
+  </head>
+  <body>
+    <a href="{% url 'query_tracker' %}" style="position: absolute; top: 1px; left: 10px; z-index: 1000;"><i class="fa fa-arrow-circle-left" style="font-size:48px;color:black"></i></a>
+    <div class="container">
+      <h2>Query Details View</h2>
+      
+      <div id="itemCount">
+        <p id="completedCount">Number of Process Completed: 0</p>
+        <p id="onHoldCount">Number of Process on Hold: 0</p>
+        <p id="pendingCount">Number of Pending Process: 0</p>
+        <p id="internalQueryCount">Number of Internal Query: 0</p>
+        <p id="externalQueryCount">Number of External Query: 0</p>
+        <p id="transactionCount">Number of Transactions: 0</p>
+      </div>
+      
+
+      <div id="timeline">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="start_date">Select Start Date:</label>
+            <div class="input-group date">
+              <input type="text" id="start_date" class="form-control" name="start_date" />
+              <div class="input-group-append">
+                <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="end_date">Select End Date:</label>
+            <div class="input-group date">
+              <input type="text" id="end_date" class="form-control" name="end_date" />
+              <div class="input-group-append">
+                <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="downloadCSV"onclick="downloadCSV()">Download Data</button>
+
+      <table class="table table-bordered" id="display_table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Analyst Name</th>
+            <th>Date Received</th>
+            <th>Date Reviewed</th>
+            <th>Transaction Number</th>
+            <th>Process</th>
+            <th>Sub Process</th>
+            <th>TAT</th>
+            <th>Status</th>
+            <th>Query</th>
+            <th>Notes</th>
+            <th>Duration</th>
+
+            <!-- Add more columns as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in user_data %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ data.analyst_name }}</td>
+              <td>{{ data.date_received }}</td>
+              <td>{{ data.date_reviewed }}</td>
+              <td>{{ data.transaction_number }}</td>
+              <td>{{ data.process }}</td>
+              <td>{{ data.sub_process }}</td>
+              <td>{{ data.tat }}</td>
+              <td>{{ data.status }}</td>
+              <td>{{ data.query }}</td>
+              <td>{{ data.notes }}</td>
+              <td>{{ data.duration }}</td>
+
+              <!-- Add more cells for other fields -->
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="12">No Record Found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

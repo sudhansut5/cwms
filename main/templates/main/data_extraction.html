@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+ 
+<head>
+  <link rel="stylesheet" href="{% static 'main/css/quality.css' %}" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  {% include 'main/head.html' %}
+  <style>
+    .bg-thead th {
+      background-color: #532464;
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+</head>
+ 
+<body>
+  {% include 'main/navbar.html' %}
+  <div class="main-container">
+    <style>
+      .bg-thead th {
+        background-color: #532464;
+        color: #ffffff;
+        text-align: center;
+      }
+    </style>
+    <a href="{% url 'home' %}"
+      style=" position: absolute; top: 1px; left: 2px; z-index: 1000; margin-top: 90px; margin-left: 20px;"><i
+        class="fa fa-arrow-circle-left" style="font-size: 35px; color: black"></i></a>
+    <h1 class="justify-content-center ml-2"
+      style="font: size 40px; font-weight: bold; color: #ffffff; background-color: #542364; width: 100%; height: fit-content; border-radius: 0.5rem;">
+      DATA EXTRACTION </h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group row" style="margin-top: -20px ">
+        <div class="form-group col-md-12" style="margin-left: -110px;">
+          <div class="form-group col-md-2" style="padding-left: 0; padding-right: 0;">
+            <div class="field" style="width: 90%;">
+              <label for="date_received" style="font-weight: bold; margin-left: 35px;">Start Date</label>
+              <input type="date" class="form-control" id="date_received" name="date_received" required />
+            </div>
+          </div>
+          <div class="form-group col-md-2" style="padding-left: 0; padding-right: 0; left: -40px;">
+            <div class="field" style="width: 90%;">
+              <label for="date_reviewed" style="font-weight: bold; margin-left: 35px;">End Date</label>
+              <input type="date" class="form-control" id="date_reviewed" name="date_reviewed" required />
+            </div>
+          </div>
+          <div class="form-group col-md-2" style="padding-left: 0; padding-right: 0; left: -75px;">
+            <div class="field" style="width: 90%;">
+              <label for="process" style="font-weight: bold; margin-left: 22px;">Select Process</label>
+              <select name="process" id="process">
+                <option value="Select Analyst">Select Process</option>
+                {% for process in process %}
+                <option value="{{ process }}">{{ process }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-md-2" style="padding-left: 0; padding-right: 0; left: -110px;">
+            <div class="field" style="width: 90%;">
+              <label for="sub_process" style="font-weight: bold; margin-left: 8px;">Select SubProcess</label>
+              <select name="sub_process" id="sub_process">
+                <option value="Select Analyst">Select SubProcess</option>
+               
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-md-2" style="padding-left: 0; padding-right: 0; left: -139px;">
+            <div class="field" style="width: 90%;">
+              <label for="analyst_name" style="font-weight: bold; margin-left: 22px;  ">Select Analyst</label>
+              <select name="analyst_name" id="analyst_name">
+                <option value="Select Analyst">Select Analyst</option>
+                <option value="all" style="font-weight: bold;">All</option><hr>
+              </select>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="form-group" style="margin-top: -13px; margin-left: -190px;">
+              <button type="submit" class="btn text-white"
+                style="background-color: #e43a3a; width: 100%; height: 42px;">Get RawData</button>
+                
+            </div>
+          </div>
+        </div>
+    </form>
+    <div style="overflow-x:auto; margin-left: -240px; margin-top: -40px;">
+      <table class="table table-bordered">
+        <thead class="bg-thead">
+          <tr>
+            <th>Analyst Name</th>
+            <th>Date Received</th>
+            <th>Date Reviewed</th>
+            <th>Transaction Number</th>
+            <th>Process</th>
+            <th>Sub Process</th>
+            <th>TAT</th>
+            <th>Status</th>
+            <th>Query</th>
+            <th>Production Notes</th>
+            <th>Auditor Name</th>
+            <th>QC Status  </th>
+            <th>QC Start Time</th>
+            <th>QC End Time </th>
+            <th>QC Duration </th>
+            <th>QC1 Result</th>
+            <th> Comment</th>
+            <th>QC2 Result</th>
+            <th>Comment</th>
+            <th>QC3 Result</th>
+            <th>Comment</th>
+            <th>QC4 Result</th>
+            <th>Comment</th>
+            <th>QC5 Result</th>
+            <th>Comment</th>
+            <th>QC Result</th>
+            <th>Comment</th>
+            <th>QC7 Result</th>
+            <th> Comment</th>
+            <th>QC8 Result</th>
+            <th>Comment</th>
+            <th>QC9 Result</th>
+            <th>Comment</th>
+            <th>QC10 Result</th>
+            <th> Comment</th>
+            <th>QC Notes</th>
+            <th>Total Score</th>
+            <!-- Add more columns for other quality checks -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <td>{{ row.analyst_name }}</td>
+            <td>{{ row.date_received }}</td>
+            <td>{{ row.date_reviewed }}</td>
+            <td>{{ row.transaction_number }}</td>
+            <td>{{ row.process }}</td>
+            <td>{{ row.sub_process }}</td>
+            <td>{{ row.tat }}</td>
+            <td>{{ row.status }}</td>
+            <td>{{ row.query }}</td>
+            <td>{{ row.notes }}</td>
+            <td>{{ row.auditor_name }}</td>
+            <td>{{ row.qc_status }}</td>
+            <td>{{ row.qstart_time|date:"m/d/Y H:i"}}</td>
+            <td>{{ row.qend_time|date:"m/d/Y H:i" }}</td>
+            <td>{{ row.qduration }}</td>
+            <td>{{ row.q1_result }} </td>
+            <td> {{ row.q1_comment }}</td>
+            <td>{{ row.q2_result }} </td>
+            <td>{{ row.q2_comment }}</td>
+            <td>{{ row.q3_result }} </td>
+            <td> {{ row.q3_comment }}</td>
+            <td>{{ row.q4_result }} </td>
+            <td> {{ row.q4_comment }}</td>
+            <td>{{ row.q5_result }} </td>
+            <td> {{ row.q5_comment }}</td>
+            <td>{{ row.q6_result }} </td>
+            <td> {{ row.q6_comment }}</td>
+            <td>{{ row.q7_result }} </td>
+            <td> {{ row.q7_comment }}</td>
+            <td>{{ row.q8_result }}</td>
+            <td>{{ row.q8_comment }}</td>
+            <td>{{ row.q9_result }}</td>
+            <td> {{ row.q9_comment }}</td>
+            <td>{{ row.q10_result }}</td>
+            <td> {{ row.q10_comment }}</td>
+            <td>{{ row.qnotes }}</td>
+            <td>{{ row.final_score }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- Add this script block to your HTML file -->
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
+    // Hide the subprocess and analyst dropdowns initially
+    $("#sub_process").hide();
+    $("#analyst_name").hide();
+
+    // Show the subprocess dropdown when a process is selected
+    $("#process").change(function() {
+        var selectedProcess = $(this).val();
+        if (selectedProcess) {
+            // Make an AJAX request to fetch sub-processes for the selected process
+            $.ajax({
+                url: "{% url 'get_sub_process' %}",
+                data: {'process': selectedProcess},
+                dataType: 'json',
+                success: function(data) {
+                    // Clear the current options in the subprocess dropdown
+                    $("#sub_process").empty();
+                    // Add default option
+                    $("#sub_process").append("<option value=''>Select Subprocess</option>");
+                    // Add the subprocess options to the subprocess dropdown
+                    $.each(data, function(index, value) {
+                        $("#sub_process").append("<option value='" + value + "'>" + value + "</option>");
+                    });
+                    // Show the subprocess dropdown
+                    $("#sub_process").show();
+                }
+            });
+        } else {
+            // If no process is selected, hide the subprocess and analyst dropdowns
+            $("#sub_process").hide();
+            $("#analyst_name").hide();
+        }
+    });
+
+    // Show the analyst dropdown when a subprocess is selected
+    $("#sub_process").change(function() {
+        var selectedSubProcess = $(this).val();
+        if (selectedSubProcess) {
+            // Make an AJAX request to fetch analyst names for the selected subprocess
+            $.ajax({
+                url: "{% url 'get_analyst_name' %}",
+                data: {'sub_process': selectedSubProcess},
+                dataType: 'json',
+                success: function(data) {
+    // Clear the current options in the analyst dropdown
+    $("#analyst_name").empty();
+
+    // Add default option
+    $("#analyst_name").append("<option value=''>Select Analyst</option>");
+
+    // Check if there is more than one analyst available
+    if (data.length > 1) {
+        // Add the "All" option
+        $("#analyst_name").append("<option value='all' style='font-weight: bold;'>All</option><hr>");
+    }
+
+    // Add the analyst options to the analyst dropdown
+    $.each(data, function(index, value) {
+        $("#analyst_name").append("<option value='" + value + "'>" + value + "</option>");
+    });
+
+    // Show the analyst dropdown
+    $("#analyst_name").show();
+}
+            });
+        } else {
+            // If no subprocess is selected, hide the analyst dropdown
+            $("#analyst_name").hide();
+        }
+    });
+});
+  </script>
+  <script>
+    $(document).ready(function() {
+        // Function to validate the form before submission
+        $("form").submit(function(event) {
+            // Check if the process, subprocess, and analyst name are not selected
+            if ($("#process").val() === "Select Process" || $("#sub_process").val() === "Select SubProcess" || $("#analyst_name").val() === "Select Analyst") {
+                // Display a message to select all required fields
+                alert("Please select Process, Subprocess, and Analyst Name.");
+                // Prevent form submission
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+  
+</body>
+ 
+</html>

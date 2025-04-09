@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+ 
+<head>
+  {% include 'main/head.html' %}
+</head>
+</style>
+{% include 'main/head.html' %}
+</head>
+<style>
+  .bg-thead th {
+    background-color: #532464;
+    color: #ffffff;
+ 
+  }
+ 
+  .form-group {
+    margin-bottom: 0px;
+  }
+ 
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0px;
+  }
+ 
+  label {
+    margin-bottom: 2px;
+  }
+ 
+  input,
+  select,
+  textarea {
+    margin-top: 1px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+ 
+  .readonly-field {
+    background-color: #f3f3f3;
+  }
+</style>
+ 
+<body>
+  {% include 'main/navbar.html' %}
+  <div class="main-container">
+    <a href="{% url 'randomizer' %}" style="position: absolute; top: 1px;left: 2px; z-index: 1000; margin-top: 90px; margin-left: 20px; text-decoration: none; color: black; font-weight: bolder;">
+      <span style="font-size: 35px; box-shadow: #403E3E; border-radius: 2rem;">&#8592;</span></a>
+    <h1
+      style="font: size 40px; font-weight: bold; color: #ffffff; background-color: #542364; width: 100%; height: fit-content; border-radius: 0.5rem;">
+      QUALITY TRACKER </h1><a href="{% url 'display_quality_tracker' %} " class="view-data-btn fw-bold text-decoration-none">View Data</a>
+    <!-- Form start here -->
+    <form method="post" action="{% url 'quality_tracker' production.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+     
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul>
+            {% for field, errors in form.errors.items %}
+              <li>{{ field }}: {{ errors|join:", " }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <!-- Analyst Name and Date Received -->
+      <div class="form-group">
+        <div class="field">
+          <label for="analystName">Analyst Name:</label>
+          <input type="text" id="analyst_name" name="analyst_name" value="{{ production.analyst_name }}" readonly/>
+        </div>
+        <div class="field">
+          <label for="dateReceived">Date Received:</label>
+          <input type="date" id="dateReceived" name="date_received"
+            value="{{ production.date_received|date:'Y-m-d'}}" readonly/>
+        </div>
+      </div>
+ 
+      <!-- Transaction Number and Date Reviewed -->
+      <div class="form-group">
+        <div class="field">
+          <label for="transactionNumber">Transaction Number:</label>
+          <input type="text" id="transactionNumber" name="transaction_number"
+            value="{{production.transaction_number}}" readonly>
+        </div>
+        <div class="field">
+          <label for="dateReviewed">Date Reviewed:</label>
+          <input type="date" id="id_dateReviewed" name="date_reviewed" value="{{production.date_reviewed|date:'Y-m-d'}}" readonly/>
+                                                                                   
+        </div>
+      </div>
+ 
+      <!-- Process and Sub Process -->
+      <div class="form-group">
+        <div class="field">
+          <label for="process">Process:</label>
+          <input type="text" id="process" name="process" value="{{ production.process }}" readonly/>
+        </div>
+        <div class="field">
+          <label for="subProcessName">Sub Process Name:</label>
+          <input type="text" id="subprocess" name="sub_process" value="{{ production.sub_process }}" readonly/>
+        </div>
+      </div>
+ 
+      <!-- TAT and Status -->
+      <div class="form-group">
+        <div class="field">
+          <label for="tat">TAT:</label>
+          <input type="text" id="tat" name="tat" value="{{production.tat}}" readonly/>
+        </div>
+        <div class="field">
+          <label for="status">Status:</label>
+          <select id="status" name="status" disabled style="color: black;">
+            <option value="Complete" {% if production.status == 'Complete' %}selected{% endif %}>Complete</option>
+            <option value="In Progress" {% if production.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+            <option value="Hold" {% if production.status == 'Hold' %}selected{% endif %}>Hold</option>
+          </select>
+        </div>
+      </div>
+      <!-- Production Notes -->
+      <div class="form-group">
+        <div class="field">
+          <label for="notes">Production Notes:</label>
+          <textarea id="notes" name="notes" rows="4" readonly >{{production.notes}}</textarea>
+        </div>
+      </div>
+      <!-- Auditor Name and Start Time -->
+      <div class="form-group">
+        <div class="field">
+          <label for="auditor_name">Auditor Name:</label>
+          <input type="text" id="auditor_name" name="auditor_name" value="{{ auditor_name }}">
+        </div>
+        <div class="field">
+          <label for="qstart_time">Start Time:</label>
+          <input type="datetime-local" class="readonly-field" id="qstart_time" name="qstart_time" value="{{ form.qstart_time.value|date:'Y-m-d H:i' }}" readonly />
+        </div>
+      </div>                                                                                                  
+      <!-- <div class="form-group">
+        <div class="field">
+          <label for="qdateReceived">Date Received:</label>
+          <input type="date" id="qdateReceived" name="qdate_received" required />
+        </div>
+        <div class="field">
+          <label for="qdateReviewed">Date Reviewed:</label>
+          <input type="date" id="qdate_reviewed" name="qdate_reviewed"/>
+        </div>
+      </div> -->
+      <!-- Table start from here -->
+      <table class="table table-bordered" style="margin-left: -40px; margin-top: 5px;">
+        <thead class="bg-thead">
+          <tr>
+            <th scope="col"> Fatal/NonFatal </th>
+            <th scope="col"> Questions </th>
+            <th scope="col"> Category </th>
+            <th scope="col"> Checkpoints/Questions </th>
+            <th scope="col"> AuditorGuidlines </th>
+            <th scope="col"> Score </th>
+            <th scope="col"> Result </th>
+            <th scope="col"> Comments </th>
+            <!-- <th scope="col"> Final Score</th> -->
+          </tr>
+        </thead>
+        <tbody id="table-body" style="height: 300px; overflow-y: auto;">
+          <tr>
+            <td>Fatal</td>
+            <td>Question-1</td>
+            <td>Cat-1</td>
+            <td>Q-1</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q1_result" id="q1_result" onchange="checkResult('q1_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q1_comment" id="q1_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Non Fatal</td>
+            <td>Question-2</td>
+            <td>Cat-2</td>
+            <td>Q-2</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q2_result" id="q2_result" onchange="checkResult('q2_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q2_comment" id="q2_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Fatal</td>
+            <td>Question-3</td>
+            <td>Cat-1</td>
+            <td>Q-3</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q3_result" id="q3_result" onchange="checkResult('q3_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q3_comment" id="q3_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Non Fatal</td>
+            <td>Question-4</td>
+            <td>Cat-2</td>
+            <td>Q-4</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q4_result" id="q4_result" onchange="checkResult('q4_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q4_comment" id="q4_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Fatal</td>
+            <td>Question-5</td>
+            <td>Cat-1</td>
+            <td>Q-5</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q5_result" id="q5_result" onchange="checkResult('q5_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q5_comment" id="q5_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Non Fatal</td>
+            <td>Question-6</td>
+            <td>Cat-2</td>
+            <td>Q-6</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q6_result" id="q6_result" onchange="checkResult('q6_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q6_comment" id="q6_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Fatal</td>
+            <td>Question-7</td>
+            <td>Cat-1</td>
+            <td>Q-7</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q7_result" id="q7_result" onchange="checkResult('q7_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q7_comment" id="q7_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Non Fatal</td>
+            <td>Question-8</td>
+            <td>Cat-2</td>
+            <td>Q-8</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q8_result" id="q8_result" onchange="checkResult('q8_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q8_comment" id="q8_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Fatal</td>
+            <td>Question-9</td>
+            <td>Cat-1</td>
+            <td>Q-9</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q9_result" id="q9_result" onchange="checkResult('q9_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q9_comment" id="q9_comment" rows="1"></textarea></td>
+          </tr>
+          <tr>
+            <td>Non Fatal</td>
+            <td>Question-10</td>
+            <td>Cat-2</td>
+            <td>Q-10</td>
+            <td>Test</td>
+            <td>10</td>
+            <!-- Data validation drop-down list -->
+            <td>
+              <div style="position:relative;">
+                <select name="q10_result" id="q10_result" onchange="checkResult('q10_result')">
+                  <option value="Pass">Pass</option>
+                  <option value="Fail">Fail</option>
+                  <option value="NA">N/A</option>
+                </select>
+              </div>
+            </td>
+            <!-- Comments are mandatory for this code when the result is Fail or N/A -->
+            <td><textarea name="q10_comment" id="q10_comment" rows="1"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Table end here -->
+      <div class="form-group">
+        <div class="field">
+          <label for="qnotes">QC Notes:</label>
+          <textarea id="qnotes" name="qnotes" rows="4"></textarea>
+        </div>
+      </div>
+      <!-- Button Group -->
+      <div id="timer"></div>
+      <div id="attemptsLeft"></div>
+      <div class="button-group" style="margin-left: -50px;">
+        <button type="submit" id="submitBtn">Submit</button>
+        <button type="button" class="pause-btn" id="pauseBtn">Pause</button>
+        <button type="button" class="resume-btn" id="resumeBtn">Resume</button>
+        <button type="reset" class="reset-btn">Reset</button>
+      </div>
+    </form>
+    <!-- Form end here -->
+  </div>
+  <!-- Add this script block to your HTML file -->
+  <!-- Include jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+ 
+  <script>
+    $(document).ready(function () {
+      // Initialize variables
+      var timer;
+      var attemptsLeft = 3;
+      var pauseCounter = 1;
+ 
+      // Function to start the timer
+      function startTimer() {
+        var seconds = 0;
+        timer = setInterval(function () {
+          seconds++;
+          displayTimer(seconds);
+        }, 1000);
+      }
+ 
+      // Function to stop the timer
+      function stopTimer() {
+        clearInterval(timer);
+        displayTimer(0);
+      }
+ 
+      // Function to display the timer
+      function displayTimer(seconds) {
+        $("#timer").text("Timer: " + seconds + " seconds");
+      }
+      // Function to display attempts left
+      function displayAttemptsLeft(attempts) {
+        $("#attemptsLeft").text("Attempts left: " + attempts);
+      }
+      // Click event for the pause button
+      $("#pauseBtn").click(function () {
+        if (attemptsLeft > 0) {
+          startTimer();
+          attemptsLeft--;
+          displayAttemptsLeft(attemptsLeft);
+          pauseCounter++;
+ 
+        } else {
+          alert("No more attempts left!");
+        }
+      });
+ 
+      // Click event for the resume button
+      $("#resumeBtn").click(function () {
+        stopTimer();
+      });
+ 
+      // Click event for the reset button
+      $(".reset-btn").click(function () {
+        stopTimer();
+        attemptsLeft = 3;
+        displayAttemptsLeft(attemptsLeft);
+      });
+    });
+ 
+  </script>
+  <!-- function for check result Fail and NA -->
+  <script>
+    function checkResult(questionId) {
+      const result = document.getElementById(questionId).value;
+      const comment = document.getElementById(questionId + "_comment");
+   
+      if (result === "Fail") {
+        comment.required = true;
+        comment.placeholder = "Required";
+      } else {
+        comment.required = false;
+        comment.placeholder = "";
+      }
+    }
+   
+    const selects = document.querySelectorAll("select[id^='q']");
+   
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        const questionId = select.id.replace("_result", "");
+        const result = document.getElementById(select.id).value;
+        const comment = document.getElementById(questionId + "_comment");
+   
+        if (result === "Fail") {
+          comment.required = true;
+          comment.placeholder = "Required";
+        } else {
+          comment.required = false;
+          comment.placeholder = "";
+        }
+      });
+    });
+  </script>
+  <script>
+    function getDate(){
+    var today = new Date();
+ 
+    document.getElementById("qdate_reviewed").value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+  }
+ 
+  window.onload = getDate;
+  </script>
+</body>
+ 
+</html>

@@ -1,0 +1,103 @@
+{% extends 'App/base.html' %}
+
+{% block title %}Registration Page{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'App/css/signup.css' %}">
+
+<style>
+    body {
+        background-image: url('{% static "App/img/background.jpg" %}');
+    }
+/* <<<<<<< HEAD */
+    /* .error-message {
+        color: black;
+        text-align: center;
+        position: absolute;
+        top: 10px;
+        }  /*Adjust the top distance as needed */
+        /* left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    } */ */
+
+/* ======= */
+/* >>>>>>> 7c2d300c49ef2b85714f325e03d0aae453ac63bc */
+</style>
+
+{% if form.errors %}
+<div class="error-message">
+    <p>Please fix the following errors:</p>
+    <ul>
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <li>{{ field|title }}: {{ error }}</li>
+        {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="container" id="container" style="background-image: url(/static/App/img/logo2.jpg)">
+    <div class="overlay-container">
+        <div class="overlay">
+            <h1>Sign Up</h1>
+            <div class="overlay-panel overlay-left">
+                <form method="post" action="{% url 'signup' %}">
+                    {% csrf_token %}
+
+                    <div class="input-container narrower-container">
+                        <label for="username"></label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="input-container">
+                        <label for="analyst_name"></label>
+                        {{ form.analyst_name }}
+
+                        <label for="analyst_email"></label>
+                        {{ form.analyst_email }}
+                    </div>
+
+                    <div class="input-container">
+                        <label for="supervisor_name"></label>
+                        {{ form.supervisor_name }}
+
+                        <label for="supervisor_email"></label>
+                        {{ form.supervisor_email }}
+
+                    </div>
+
+                    <div class="input-container" id="drop">
+                        <label for="process_name"></label>
+                        {{ form.process }}
+                        <div class="horizontal-gap"></div>
+
+                        <label for="sub_process_name"></label>
+                        {{ form.sub_process }}
+                    </div>
+
+                    <div class="input-container">
+                        <label for="password"></label>
+                        {{ form.password1 }}
+
+                        <label for="confirm_password"></label>
+                        {{ form.password2 }}
+                    </div>
+                    <div class="input-container2">
+                        {{ form.agreeTerms }} {{ form.agreeTerms.label_tag }}
+                    </div>
+                    <button type="submit" value="Sign Up">Register</button>
+                </form>
+                <p>Already have account? <a href="{% url 'custom_login' %}">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

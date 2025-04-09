@@ -1,0 +1,40 @@
+<table class="table table-bordered" id="display_table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Analyst Name</th>
+      <th>Date Received</th>
+      <th>Date Reviewed</th>
+      <th>Transaction Number</th>
+      <th>Process</th>
+      <th>Sub Process</th>
+      <th>TAT</th>
+      <th>Status</th>
+      <th>Query</th>
+      <th>Notes</th>
+      <th>Duration</th>
+
+      <!-- Add other table headers as needed -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for data in user_data %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ data.analyst_name }}</td>
+        <td>{{ data.date_received }}</td>
+        <td>{{ data.date_reviewed }}</td>
+        <td>{{ data.transaction_number }}</td>
+        <td>{{ data.process }}</td>
+        <td>{{ data.sub_process }}</td>
+        <td>{{ data.tat }}</td>
+        <td>{{ data.status }}</td>
+        <td>{{ data.query }}</td>
+        <td>{{ data.notes }}</td>
+        <td>{{ data.duration }}</td>
+
+        <!-- Add more cells for other fields -->
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

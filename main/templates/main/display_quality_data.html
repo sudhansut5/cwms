@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    {% include 'main/head.html' %}
+  </head>
+
+  <body>
+    {% include 'main/navbar.html' %}
+    <div class="main-container">
+      <h1 class="justify-content-center ml-4" style="font: size 40px;font-weight: bold;">Analyst Details</Details></h1>
+      <form method="post" action="">
+        {% csrf_token %}
+
+        <!-- Analyst Name and Date Reviewed -->
+        <div class="form-group">
+          <div class="field">
+            <label for="analystName">Analyst Name:</label>
+            <input type="text" id="analyst_name" name="analyst_name" value="{{ analyst_name.analyst_name }}" readonly />
+          </div>
+          <div class="field">
+            <label for="dateReceived">Date Received:</label>
+            <input type="date" id="dateReceived" name="date_received" value="{{date_received}}" readonly/>
+          </div>
+        </div>
+
+        <!-- Transaction Number and Start Time -->
+        <div class="form-group">
+          <div class="field">
+            <label for="transactionNumber">Transaction Number:</label>
+            <input type="text" id="transactionNumber" name="transaction_number" value="{{analyst_name.transaction_number}}" readonly />
+          </div>
+          <div class="field">
+            <label for="dateReviewed">Date Reviewed:</label>
+            <input type="date" id="dateReviewed" name="date_reviewed" value="{{date_reviewed|date:'Y-m-d'}}" readonly/>
+          </div>
+        </div>
+
+        <!-- Process and TAT -->
+        <div class="form-group">
+          <div class="field">
+            <label for="process">Process:</label>
+            <input type="text" id="process" name="process" value="{{ analyst_name.process }}" readonly />
+          </div>
+          <div class="field">
+            <label for="startTime">Start Time:</label>
+            <input type="datetime-local" class="readonly-field" id="startTime" name="start_time" value="{{ analyst_name.start_time|date:'Y-m-d\TH:i' }}" readonly />
+          </div>
+        </div>
+
+        <!-- Sub Process Name and Query -->
+        <div class="form-group">
+          <div class="field">
+            <label for="subProcessName">Sub Process Name:</label>
+            <input type="text" id="subprocess" name="sub_process" value="{{ analyst_name.sub_process }}" readonly />
+          </div>
+          <div class="field">
+            <label for="tat">TAT:</label>
+            <input type="text" id="tat" name="tat" value="{analyst_name.tat}" />
+          </div>
+        </div>
+
+        <!-- Status and Notes -->
+        <div class="form-group">
+          <div class="field">
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+              <option value="Complete">Complete</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Hold">Hold</option>
+            </select>
+            <!-- <input type="text" id="status" name="status" value="{{ analyst_name.status }}" readonly /> -->
+          </div>
+          <div class="field">
+            <label for="query">Query:</label>
+            <select id="query" name="query">
+              <option value="No Query">No Query</option>
+              <option value="Internal">Internal</option>
+              <option value="External">External</option>
+            </select>
+            
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="field">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" rows="4">{{analyst_name.notes}}</textarea>
+          </div>
+        </div>
+
+        <!-- Button Group -->
+        <div id="timer"></div>
+        <div id="attemptsLeft"></div>
+        
+
+        <div class="button-group">
+          <button type="submit" id="submitBtn">Submit</button>
+          <button type="button" class="pause-btn" id="pauseBtn">Pause</button>
+          <button type="button" class="resume-btn" id="resumeBtn">Resume</button>
+          <button type="reset" class="reset-btn">Reset</button>
+        </div>
+      </form>
+    </div>
+    <!-- Add this script block to your HTML file -->
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Initialize variables
+    var timer;
+    var attemptsLeft = 3;
+    var pauseCounter = 1;
+
+    // Function to start the timer
+    function startTimer() {
+      var seconds = 0;
+      timer = setInterval(function() {
+        seconds++;
+        displayTimer(seconds);
+      }, 1000);
+    }
+
+    // Function to stop the timer
+    function stopTimer() {
+      clearInterval(timer);
+      displayTimer(0);
+    }
+
+    // Function to display the timer
+    function displayTimer(seconds) {
+      $("#timer").text("Timer: " + seconds + " seconds");
+    }
+// Function to display attempts left
+    function displayAttemptsLeft(attempts) {
+      $("#attemptsLeft").text("Attempts left: " + attempts);
+    }
+    // Click event for the pause button
+    $("#pauseBtn").click(function() {
+      if (attemptsLeft > 0) {
+        startTimer();
+        attemptsLeft--;
+        displayAttemptsLeft(attemptsLeft);
+        pauseCounter++;
+
+      } else {
+        alert("No more attempts left!");
+      }
+    });
+
+    // Click event for the resume button
+    $("#resumeBtn").click(function() {
+      stopTimer();
+    });
+
+    // Click event for the reset button
+    $(".reset-btn").click(function() {
+      stopTimer();
+      attemptsLeft = 3;
+      displayAttemptsLeft(attemptsLeft);
+    });
+  });
+</script>
+  </body>
+</html>

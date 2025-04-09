@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  {% include 'main/head.html' %}
+  <style>
+    .bg-thead th {
+      background-color: #532464;
+      color: #ffffff;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  {% include 'main/navbar.html' %}
+  <div>
+    <a href="{% url 'randomizer' %}"
+      style="position: absolute; top: 1px; left: 2px; z-index: 1000; margin-top: 90px; margin-left: 20px;"><i
+        class="fa fa-arrow-circle-left" style="font-size:35px;color:black"></i></a>
+  </div>
+  <div class="main-container">
+    <h1 class="justify-content-center ml-4"
+      style="font: size 40px; font-weight: bold; margin-left: 10px; background-color: #542364; color: #ffffff; width: 100%; border-radius: 0.5rem;">
+      QUALITY TRACKER DETAILS</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div style="margin-left: 130px;">
+        <div class="form-group" style="margin-top: -20px; width: 75%;">
+          <div class="field">
+            <label for="qdate_received" style="font-weight: bold; margin-left: 75px;">Start Date</label>
+            <input type="date" class="form-control" id="qdate_received" name="qdate_received" required
+              style="height: 40px;">
+          </div>
+          <div class="field">
+            <label for="qdate_reviewed" style="font-weight: bold; margin-left: 75px;">End Date</label>
+            <input type="date" class="form-control" id="qdate_reviewed" name="qdate_reviewed" required
+              style="height: 40px;">
+          </div>
+        </div>
+        <div class="form-group" style="width: 75%;">
+          <div class="field">
+            <select name="auditor_name" id="auditor_name">
+              <option value="" style="font-weight: lighter;">Select an auditor</option>
+              <option value="all" style="font-weight: bold;">All</option><hr>
+              {% for auditor in auditors %}
+                <option value="{{ auditor }}" style="font-weight: bold;">{{ auditor }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6" style="margin-left: -190px; margin-top: -120px; width: 145%;">
+          <button type="submit" class="btn text-white" style="background-color: #E9435C;">Submit</button>
+        </div>
+      </div>
+    </form>
+    <div style="overflow-x:auto;">
+      <table class="table table-bordered" id="display_table" style="margin-top:-3px; resize: 50px;">
+        <thead class="bg-thead">
+          <tr>
+            <th>Auditor Name</th>
+            <th>Transaction Number</th>
+            <th>Question-1</th>
+            <th>Comment</th>
+            <th>Question-2</th>
+            <th>Comment</th>
+            <th>Question-3</th>
+            <th>Comment</th>
+            <th>Question-4</th>
+            <th>Comment</th>
+            <th>Question-5</th>
+            <th>Comment</th>
+            <th>Question-6</th>
+            <th>Comment</th>
+            <th>Question-7</th>
+            <th>Comment</th>
+            <th>Question-8</th>
+            <th>Comment</th>
+            <th>Question-9</th>
+            <th>Comment</th>
+            <th>Question-10</th>
+            <th>Comment</th>
+            <th>QC Notes</th>
+            <th>Final Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in userdata %}
+            <tr>
+              <td>{{ data.auditor_name }}</td>
+              <td>{{ data.transaction_number }}</td>
+              <td>{{ data.q1_result }}</td>
+              <td>{{ data.q1_comment }}</td>
+              <td>{{ data.q2_result }}</td>
+              <td>{{ data.q2_comment }}</td>
+              <td>{{ data.q3_result }}</td>
+              <td>{{ data.q3_comment }}</td>
+              <td>{{ data.q4_result }}</td>
+              <td>{{ data.q4_comment }}</td>
+              <td>{{ data.q5_result }}</td>
+              <td>{{ data.q5_comment }}</td>
+              <td>{{ data.q6_result }}</td>
+              <td>{{ data.q6_comment }}</td>
+              <td>{{ data.q7_result }}</td>
+              <td>{{ data.q7_comment }}</td>
+              <td>{{ data.q8_result }}</td>
+              <td>{{ data.q8_comment }}</td>
+              <td>{{ data.q9_result }}</td>
+              <td>{{ data.q9_comment }}</td>
+              <td>{{ data.q10_result }}</td>
+              <td>{{ data.q10_comment }}</td>
+              <td>{{ data.qnotes }}</td>
+              <td>{{ data.final_score }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
+</html>

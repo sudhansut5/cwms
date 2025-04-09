@@ -1,0 +1,22 @@
+/* Styles for individual rows */
+.row1,
+.row2,
+.row3 {
+    background-color: #542364;
+    border-radius: 15px;
+    color: white;
+    font-size: 10px;
+    width: 400px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.row2 {
+    align-items: center;
+}
+
+.row3 {
+    align-items: center;
+    justify-content: center;
+}

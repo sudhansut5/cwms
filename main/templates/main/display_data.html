@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+ 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Data Table</title>
+ 
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+ 
+  <!-- Add Bootstrap Datepicker CSS -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+ 
+  <!-- Add jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+  <!-- Add Bootstrap JS and Bootstrap Datepicker JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="{% static 'main/css/display.css' %}" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+  <!-- Include Blob library -->
+ 
+  <!-- Include FileSaver library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+ 
+  <script src="{% static 'main/js/display.js' %}"></script>
+  <style>
+    .small-box {
+      width: 200px;
+      /* Set the width of the box */
+      height: 80px;
+      /* Set the height of the box */
+      border: 1px solid #ccc;
+      /* Add a border */
+      border-radius: 1rem;
+      background-color: #532464;
+      padding: 10px;
+      color: white;
+      /* Add padding to create space between the border and the content */
+      text-align: center;
+      /* Center the content horizontally */
+    }
+ 
+    .small-box h3 {
+      margin: 0;
+      /* Remove the top margin to make the title appear closer to the top of the box */
+    }
+  
+    .transaction-link {
+      background-color: #f9f7fa;
+      /* Change the color to your preference */
+      font-size: 14px;
+      /* Change the size to your preference */
+    text-decoration: none;
+      /* Remove the default underline */
+   }
+ 
+          .transaction-link:hover {
+      text-decoration: underline;
+      /* Add underline on hover */
+    }
+  </style>
+</head>
+ 
+<body>
+  <a href="{% url 'production_tracker' %}" style="position: absolute; top: 1px; left: 10px; z-index: 1000;"><i
+      class="fa fa-arrow-circle-left" style="font-size:48px;color:black"></i></a>
+  <div class=" main-container">
+    <h2 style="font-weight: bold; margin-bottom: 20px;">Production Details View</h2>
+    <div id="itemCount" style="text-align: center;" !important>
+      <div class="">
+        <div class="row">
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="completedCount">0</h3>
+            <p>Completed</p>
+          </div>
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="onHoldCount">0</h3>
+            <p>Hold</p>
+          </div>
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="pendingCount">0</h3>
+            <p>Process</p>
+          </div>
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="internalQueryCount">0</h3>
+            <p>Internal Query</p>
+          </div>
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="externalQueryCount">0</h3>
+            <p>External Query</p>
+          </div>
+          <div class="col-md-2 col-sm-4 small-box">
+            <h3 id="transactionCount">0</h3>
+            <p>Review</p>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div id="timeline">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="date_received">Select Start Date:</label>
+          <div class="input-group date">
+            <input type="text" id="date_received" class="form-control" name="date_received" value="{{ default_start_date|date:'Y-m-d' }}" data-date-format="yyyy-mm-dd" />
+            <div class="input-group-append">
+              <span class="input-group-text" style="background-color: #532464; color: aliceblue;"><span class="fa fa-calendar"></span></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="date_reviewed">Select End Date:</label>
+          <div class="input-group date">
+            <input type="text" id="date_reviewed" class="form-control" name="date_reviewed" value="{{ default_start_date|date:'Y-m-d' }}" data-date-format="yyyy-mm-dd" />
+            <div class="input-group-append">
+              <span class="input-group-text" style="background-color: #532464; color: aliceblue;"><span class="fa fa-calendar"></span></span>
+            </div>
+          </div>
+        </div>
+              </div>
+    </div>
+    <button id="downloadCSV" onclick="downloadCSV()">Download Data</button>
+
+    <table class="table table-bordered" id="display_table">
+      <thead>
+        <tr>
+          <th>Analyst Name</th>
+          <th>Date Received</th>
+          <th>Date Reviewed</th>
+          <th>Submit Time</th>
+          <th>Transaction Number</th>
+          <th>Process</th>
+          <th>Sub Process</th>
+          <th>TAT</th>
+          <th>Status</th>
+          <th>Query</th>
+          <th>Notes</th>
+ 
+          <!-- Add more columns as needed -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in user_data %}
+        <tr>
+          <td>{{ data.analyst_name }}</td>
+          <td style="font-weight: normal;">{{ data.date_received }}</td>
+          <td>{{ data.date_reviewed }}</td>
+          <td>{{data.start_time|date:"m/d/Y H:i"}}</td>
+
+          {% if data.status == "In Progress" or data.status == "Hold" %}
+          
+  <td><a href="{% url 'display_production_data' id=data.id %}?edit=true" class="transaction-link small-link">
+    
+    {{ data.transaction_number }}</a></td>
+          {% else %}
+          <td>{{ data.transaction_number }}
+            {% endif %}
+
+          </td>
+          <td>{{ data.process }}</td>
+          <td>{{ data.sub_process }}</td>
+          <td>{{ data.tat }}</td>
+          <td>{{ data.status }}</td>
+          <td>{{ data.query }}</td>
+          <td>{{ data.notes }}</td>
+ 
+          <!-- Add more cells for other fields -->
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="12">No Record Found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+ 
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+ 
+<head>
+    <link rel="stylesheet" href="{% static 'main/css/quality.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   
+    {% include 'main/head.html' %}
+ 
+    <style>
+        .bg-thead th {
+          background-color: #532464;
+          color: #ffffff;
+          text-align: center;
+        }
+      </style>
+</head>
+ 
+<body>
+    {% include 'main/navbar.html' %}
+ 
+    <div class="main-container">
+        <a href="{% url 'home' %}"
+            style="position: absolute; top: 1px; left: 2px; z-index: 1000; margin-top: 90px; margin-left: 20px;"><i
+                class="fa fa-arrow-circle-left" style="font-size:35px;color:black"></i></a>
+        <h1 class="justify-content-center ml-2"
+            style="font: size 40px; font-weight: bold; color: #ffffff; background-color: #542364; width: 100%; height: fit-content; border-radius: 0.5rem;">
+            RANDOMIZER</h1>
+        <form method="post" id="my-form">
+            {% csrf_token %}
+            <div class="form-group row" style="margin-top: -20px;">
+ 
+                <div class=" form-group col-md-6" style="margin-left: 97px;">
+                    <div class="field">
+                        <label for="id_date_received" style="font-weight: bold; margin-left: 70px;">Start Date</label>
+                        <input type="date" class="form-control" id="id_date_received" name="date_received" required>
+                    </div>
+                    <div class="field">
+                        <label for="id_date_reviewed" style="font-weight: bold; margin-left: 70px;">End Date</label>
+                        <input type="date" class="form-control" id="id_date_reviewed" name="date_reviewed" required>
+                    </div>
+                </div>
+ 
+                <div class=" form-group col-md-6" style="margin-left: 97px; margin-top: -30px;">
+                    <div class="field">
+                        <label for="id_select_field" style="font-weight: bold; margin-left: 70px;">Select Field</label>
+                        <select name="select_field" id="id_select_field">
+                            {% for choice in form.select_field.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    <div class="field">
+                        <label for="id_percentage" style="font-weight: bold; margin-left: 70px;">Percentage</label>
+                        <input type="number" name="percentage" id="id_percentage" min="1" max="100" step="any" value="20" class="form-control" required>
+                    </div>
+ 
+                </div>
+ 
+                <div class="form-group col-md-12" style="margin-left: 235px; margin-top: -35px;">                    
+                    <div class="form-group col-md-6" style="margin-top: -25px;">
+                        <button type="submit" class="btn text-white"style="background-color: #e43a3a; width: 40%; float: right; margin-left: -10px;">GetSample</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+ 
+ 
+        <table class="table table-bordered justify-content-center ml-2" id="display_table">
+            <thead class="bg-thead">
+                <tr>
+                    <th>Analyst Name</th>
+                    <th>Date Received</th>
+                    <th>Date Reviewed</th>
+                    <th>Review Time</th>
+                    <th>Transaction Number</th>
+                    <th>Process</th>
+                    <th>Sub Process</th>
+                    <th>TAT</th>
+                    <th>Status</th>
+                    <th>Query</th>
+                    <th>Notes</th>
+                    <th>QC Status</th>
+ 
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            {% if random_data %}
+            <tbody>
+                {% for data in random_data %}
+                <tr>
+                    <td>{{ data.analyst_name }}</td>
+                    <td>{{ data.date_received }}</td>
+                    <td>{{ data.date_reviewed }}</td>
+                    <td>{{ data.start_time|date:"m/d/y H:i:s" }}</td>
+                    {% if data.status == 'Complete' and data.qc_status != 'Complete' %}
+                        <td><a href="{% url 'quality_tracker' id=data.id %}">{{ data.transaction_number }}</a></td>
+                    {% else %}
+                        <td>{{ data.transaction_number }}</td>    
+                    {% endif %}
+                    <td>{{ data.process }}</td>
+                    <td>{{ data.sub_process }}</td>
+                    <td>{{ data.tat }}</td>
+                    <td>{{ data.status }}</td>
+                    <td>{{ data.query }}</td>
+                    <td>{{ data.notes }}</td>
+                    <td class="{% if data.qc_status == 'Complete' %}text-success{% elif data.qc_status == 'Pending' %}text-warning{% endif %}">
+                        {{ data.qc_status }}
+                    </td>  
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No data available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% endif %}
+        </table>
+ 
+    </div>
+    <!-- Add this script block to your HTML file -->
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('my-form').addEventListener('submit', function(event) {
+            var startDate = document.getElementById('id_date_received').value;
+            var endDate = document.getElementById('id_date_reviewed').value;
+   
+            if (new Date(startDate) > new Date(endDate)) {
+                alert('---Start Date Must Be Before End Date,Please Check Your Input Field---');
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+ 
+</html>

@@ -1,0 +1,64 @@
+/* Reset and base styles */
+body {
+    font-family: calibri;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 20vh;
+    background-attachment: fixed;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: white;
+    font-size: 22px;
+    display: flex;
+    width: 100%;
+    height: 75px;
+    position: fixed;
+    border-bottom: 1px solid #ccc; /* Add this line for the border */
+    top: 0;
+    z-index: 1000; /* Adjust the z-index as needed */
+
+    
+}
+
+.navbar-nav .nav-link {
+    color: #542364;
+}
+
+
+#logo {
+    margin-left: 30px;
+}
+
+
+
+/* Jumbotron styles */
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0);
+    padding: 120px 0;
+    color: black;
+    opacity: 1.0;
+}
+
+
+/* Footer styles */
+footer {
+    background-color: #542364;
+    margin-top: 5%;
+    padding: 20px 0;
+    text-align: center;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+
+.row {
+    margin-top: 30px;
+    margin-right: -295px;
+
+}
+
+

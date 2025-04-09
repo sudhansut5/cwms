@@ -1,0 +1,119 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 80%;
+    margin: 120px;
+    margin-bottom: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-left:10px;
+}
+
+h1 {
+    color: #532464;
+    font-size: 1.8rem;
+}
+
+form {
+    max-width: 100%;
+    margin: 50px 200px;
+    margin-right:100px;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.field {
+    width: 50%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Change to column */
+}
+
+.field label {
+    text-align: left; /* Align label to the left */
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 80%;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    height:45px;
+    border-radius: 5px;
+    background-color: #F2F2F2;
+    border:none;
+    text-align: center;
+}
+
+.field textarea {
+height:100px;
+width:715px;
+
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between; /* Adjust this based on your layout preferences */
+    margin-top: 20px; /* Adjust the margin as needed */
+}
+
+button {
+    background-color: #532464; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    width:20%;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top:50px;
+}
+        .submit-btn {
+            background-color: #532464; /* Green */
+            color: white;
+        }
+
+        .pause-btn {
+            background-color: #E9435C; /* Red */
+            color: white;
+        }
+
+        .resume-btn {
+            background-color: #29B9CE; /* Blue */
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: #7F7F7F; /* Light gray */
+            color: white;
+        }
+
+/* button:hover {
+} */
+.view-data-btn{
+margin-left:400px;
+position: absolute;
+/* right:100px; */
+    
+}
+
+/* Assuming .readonly-field is the class you added to the input field */
+.readonly-field::-webkit-datetime-edit-second-field {
+    color: black; /* Change the color to your desired value */
+}
+

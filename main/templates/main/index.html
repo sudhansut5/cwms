@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'main/head.html' %}
+</head>
+
+
+<body>
+    {% include 'main/navbar.html' %}
+
+    <main role="main">
+        {% include 'main/jumbotron.html' %}
+
+        <div class="container marketing">
+            {% comment %} {% include 'production_tracker.html' %}
+            {% comment %} {% include 'randomizer.html' %}
+            {% comment %} {% include 'data_extraction.html' %}
+            {% include 'quality_tracker.html' %}
+            {% include 'query_tracker.html' %} {% endcomment %}
+        </div>
+    </main>
+
+    {% include 'main/footer.html' %}
+    
+</body>
+
+</html>

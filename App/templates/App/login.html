@@ -1,0 +1,41 @@
+{% extends 'App/base.html' %}
+
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+  {% load static %}
+  <style>
+    body {
+      background-image: url('{% static "App/img/background.jpg" %}');
+    }
+  </style>
+  <div class="container" id="container" style="background-image: url(/static/App/img/login_side1.jpg)">
+    <div class="overlay-container">
+      <div class="overlay">
+        <h1>Login</h1>
+        <div class="overlay-panel overlay-left">
+          <form method="post" action="{% url 'custom_login' %}">
+            {% csrf_token %}
+            <i class="fas fa-user"></i>
+            <label for="username"></label>
+            {{ form.username }}
+            <i class="fas fa-lock"></i>                    
+            <label for="password"></label>          
+            {{ form.password }}
+            <p>Forgot your password? <a href="{% url 'password_reset_request' %}">Reset it here</a></p>
+            <button type="submit" value="Login">Login</button>
+          </form>
+          <p>Don't have an account?
+            <a  href="{% url 'signup' %}">Register here</a></p>
+          <p>{{ error_message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Add JavaScript to set placeholders since form placeholders may not be supported in some older browsers
+    document.getElementById("id_username").placeholder = "Username";
+    document.getElementById("id_password").placeholder = "Password";
+  </script>
+
+{% endblock %}
