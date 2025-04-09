@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-oy1snd+pefg_u)nqg2wme3(lgblm&4bl*t!kt97+r2f6pbijv4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['cwmstest-github.onrender.com']
+
 
 
 # Application definition
